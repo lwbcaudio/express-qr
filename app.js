@@ -19,7 +19,7 @@ app.post('/webhook', (req, res) => {
 
   // Send the new JSON object back as a webhook
   // You'll need to replace 'your-webhook-url' with the actual URL of your webhook
-  fetch('https://services.leadconnectorhq.com/hooks/Omrlu0IUWPogkEMGESTx/webhook-trigger/7e7b5d50-34b2-483e-954f-992d9d68272f', {
+  fetch('https://services.leadconnectorhq.com/hooks/Omrlu0IUWPogkEMGESTx/webhook-trigger/f5cfe79e-5bda-4c60-b747-efb4648b5010', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
