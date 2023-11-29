@@ -54,8 +54,8 @@ app.get('/qr-gen', (req, res) => {
     }
   });
 });
-app.post('/qr:qrdata', (req, res) => {
-  const hexString = req.params.qrdata;
+app.get('/qr', (req, res) => {
+  const hexString = req.query.qrdata;
 
   // Decode the hex string to JSON
   const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
