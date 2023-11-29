@@ -79,10 +79,15 @@ app.get('/qr', (req, res) => {
     body: JSON.stringify(newJson)
   })
   .then(response => response.json())
-  .then(data => console.log(data))
+  .then(data => {
+    console.log(data);
+    res.send(`<p>QR Code scanned successfully!</p>`); // Display success message
+  })
   .catch((error) => {
     console.error('Error:', error);
+    res.send(`<p>Error: ${error}</p>`); // Display error message
   });
+});
 
   res.status(200).end(); // Responding is important
 });
