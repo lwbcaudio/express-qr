@@ -56,9 +56,9 @@ app.post('/qr:qrdata', (req, res) => {
   const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
   const jsonData = JSON.parse(jsonString);
 
-  // Get the phone and inboundwebhookurl data
+  // Get the phone and promohook data
   const phone = jsonData.phone;
-  const inboundWebhookUrl = jsonData.inboundwebhookurl;
+  const inboundWebhookUrl = jsonData.promohook;
 
   // Create the new JSON object
   const newJson = {
