@@ -15,7 +15,6 @@ app.post('/webhook', (req, res) => {
   // Create the new JSON object
   const newJson = {
     phone: req.body.phone,
-    basicwebhook: req.body.basicwebhook,
     qrdata: base64String
   };
 
@@ -38,7 +37,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.post('/qr-gen', (req, res) => {
-  const base64String = req.body.base64;
+  const base64String = req.body.qrdata;
 
   // Generate QR code from base64 string
   qrcode.toDataURL(base64String, (err, url) => {
