@@ -8,14 +8,14 @@ app.post('/webhook', (req, res) => {
   // This is where you'll handle the incoming webhook data
   console.log(req.body);
 
-  // Encode the JSON string to base64
+  // Encode the JSON string to hexadecimal
   const jsonString = JSON.stringify(req.body);
-  const base64String = Buffer.from(jsonString).toString('base64');
+  const hexString = Buffer.from(jsonString).toString('hex');
 
   // Create the new JSON object
   const newJson = {
     phone: req.body.phone,
-    qrdata: base64String
+    qrdata: hexString
   };
 
   // Send the new JSON object back as a webhook
@@ -36,11 +36,11 @@ app.post('/webhook', (req, res) => {
   res.status(200).end(); // Responding is important
 });
 
-app.post('/qr-gen', (req, res) => {
-  const base64String = req.body.qrdata;
+app.post('/qr-gen:qrdata', (req, res) => {
+  const hexString = req.params.qrdata;
 
-  // Generate QR code from base64 string
-  qrcode.toDataURL(base64String, (err, url) => {
+  // Generate QR code from hexadecimal string
+  qrcode.toDataURL(hexString, (err, url) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error generating QR code');
@@ -48,6 +48,38 @@ app.post('/qr-gen', (req, res) => {
       res.send(url);
     }
   });
+});
+app.post('/qr:qrdata', (req, res) => {
+  const hexString = req.params.qrdata;
+
+  // Decode the hex string to JSON
+  const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
+  const jsonData = JSON.parse(jsonString);
+
+  // Get the phone and inboundwebhookurl data
+  const phone = jsonData.phone;
+  const inboundWebhookUrl = jsonData.inboundwebhookurl;
+
+  // Create the new JSON object
+  const newJson = {
+    phone: phone
+  };
+
+  // Send the new JSON object back as a webhook to the inboundwebhookurl
+  fetch(inboundWebhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newJson)
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+  res.status(200).end(); // Responding is important
 });
 
 const port = process.env.PORT || 3000;
