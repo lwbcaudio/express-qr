@@ -45,8 +45,12 @@ app.get('/qr-gen', (req, res) => {
       console.error(err);
       res.status(500).send('Error generating QR code');
     } else {
-      res.type('png');
-      res.send(url);
+      res.writeHead(200, {
+        'Content-Type': 'image/png',
+        'Content-Length': buffer.length
+      });
+
+      res.end(buffer);
     }
   });
 });
