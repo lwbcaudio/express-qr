@@ -87,7 +87,7 @@ app.get('/qr', (req, res) => {
     console.error('Error:', error);
     res.send(`<p>Error: ${error}</p>`); // Display error message
   });
-});
+
 
   res.status(200).end(); // Responding is important
 });
