@@ -40,11 +40,12 @@ app.get('/qr-gen', (req, res) => {
   const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.params.qrdata;
 
   // Generate QR code from hexadecimal string
-  qrcode.toDataURL(hexString, (err, url) => {
+  qrcode.toBuffer(hexString, (err, buffer) => {
     if (err) {
       console.error(err);
       res.status(500).send('Error generating QR code');
     } else {
+      res.type('png');
       res.send(url);
     }
   });
