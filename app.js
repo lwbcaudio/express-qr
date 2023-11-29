@@ -37,7 +37,7 @@ app.post('/webhook', (req, res) => {
 });
 //app.post('/qr-gen', (req, res) => {
 app.get('/qr-gen', (req, res) => {
-  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.params.qrdata;
+  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
 
   // Generate QR code from hexadecimal string
   qrcode.toBuffer(hexString, (err, buffer) => {
