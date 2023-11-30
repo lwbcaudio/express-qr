@@ -111,13 +111,13 @@ app.post('/qr-gen', async (req, res) => {
     });
     console.log("FTP connected");
     // Upload file
-    await client.cd("public_html"); 
+    await client.cd("/public_html"); 
     await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
     
     console.log("Uploaded");
 
     // Send response
-    res.send("https://domain/" + qrfile);
+    res.send("https://livingwordnew.com/" + qrfile);
 
   } catch(err) {
 
