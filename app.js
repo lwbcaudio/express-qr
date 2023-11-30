@@ -88,39 +88,44 @@ app.get('/qr-gen1', (req, res) => {
     }
   });
 });
-app.post('/qr-gen', (req, res) => {
-  //get needed variables
-  const phone = req.body.phone;
-  const qrpromohook = req.body.promohook;
-  const qrname = req.body.id;
-  const qrfile = qrname + '.png';
-  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.body.qrdata;
-  // grenerate QR code 
-  qrcode.toFile(qrfile, hexString, (err) => {
-    if(err) {
-      console.log(err);
-      return res.status(500).send('Error generating QR code');
-    }
-    // Upload image
+app.post('/qr-gen', async (req, res) => {
+
+  try {
+
+    // Get data   
+    const phone = req.body.phone; 
+    const qrpromohook = req.body.promohook;
+    const qrname = req.body.id;
+    const qrfile = qrname + '.png';
+    const hexString = '// qrdata 
+
+    // Generate QR code
+    await qrcode.toFile(qrfile, hexString);
+
+    // Connect to FTP
     const client = new ftp.Client();
-    const ftpPassword = process.env.ftppassword;
-    client.access({
-      host: "ftp.livingwordnew.com",
-      user: "qr@livingwordnew.com",
-      password: ftpPassword 
+    await client.access({  
+      host: "",
+      user: "",
+      password: process.env.ftppassword 
     });
-    client.cd("public_html/qr");
-    client.uploadFrom(fs.createReadStream(qrfile), qrfile, (err) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send('Error uploading image');  
-      } 
-      console.log("Uploaded QR code");
-      client.close();
-      // Return URL to image
-      res.send("https://livingwordnew.com/qr/" + qrfile); 
-    });
-  });
+
+    // Upload file
+    await client.cd("public_html/qr"); 
+    await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
+    
+    console.log("Uploaded");
+
+    // Send response
+    res.send("https://domain/" + qrfile);
+
+  } catch(err) {
+
+    console.log(err);
+    res.status(500).send('Error uploading image');
+  
+  }
+
 });
 app.get('/qr', (req, res) => {
   const hexString = req.query.qrdata;
