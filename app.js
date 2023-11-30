@@ -2,6 +2,7 @@ const express = require('express');
 const qrcode = require('qrcode');
 const ftp = require('basic-ftp');
 const fs = require('fs');
+require('dotenv').config() 
 
 const app = express();
 app.use(express.json());
@@ -103,10 +104,11 @@ app.get('/qr-gen', (req, res) => {
     }
     // Upload image
     const client = new ftp.Client();
+     onst ftpPassword = process.env.ftppassword;
     client.access({
       host: "ftp.livingwordnew.com",
       user: "qr@livingwordnew.com",
-      password: "F2&+i1:@mc|(" 
+      password: ftpPassword 
     });
     client.cd("public_html/qr");
     client.uploadFrom(fs.createReadStream(qrfile), qrfile, (err) => {
