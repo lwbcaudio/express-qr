@@ -2,7 +2,7 @@ const express = require('express');
 const qrcode = require('qrcode');
 const ftp = require('basic-ftp');
 const fs = require('fs');
-require('dotenv').config() 
+require('dotenv').config(); 
 
 const app = express();
 app.use(express.json());
