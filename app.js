@@ -86,7 +86,6 @@ app.get('/qr-gen1', (req, res) => {
   });
 });
 app.get('/qr-gen', (req, res) => {
-  cosole
   const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
   const hexS =req.query.qrdata;
   console.log(hexS);
