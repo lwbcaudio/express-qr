@@ -85,6 +85,39 @@ app.get('/qr-gen', (req, res) => {
     }
   });
 });
+app.get('/qr-gen1', (req, res) => {
+
+  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
+  
+  const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
+  const jsonData = JSON.parse(jsonString);
+  const qrname = jsonData.id;
+  const qrfile = qrname + '.png';
+   qrcode.toFile('qrcode.png', hexString, (err) => {
+    if(err) {
+      console.log(err);
+      return res.status(500).send('Error generating QR code');
+    }
+    // Upload image
+    const client = new ftp.Client();
+    client.access({
+      host: "ftp.livingwordnew.com",
+      user: "qr@livingwordnew.com",
+      password: "F2&+i1:@mc|(" 
+    });
+    client.cd("public_html/qr");
+    client.uploadFrom(fs.createReadStream(qrfile), qrfile, (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send('Error uploading image');  
+      } 
+      console.log("Uploaded QR code");
+      client.close();
+      // Return URL to image
+      res.send("https://livingwordnew.com/qr/" + qrfile); 
+    });
+  });
+});
 app.get('/qr', (req, res) => {
   const hexString = req.query.qrdata;
 
