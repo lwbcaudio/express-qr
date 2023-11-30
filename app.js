@@ -111,7 +111,7 @@ app.post('/qr-gen', async (req, res) => {
     });
 
     // Upload file
-    await client.cd("public_html/qr"); 
+    await client.cd("public_html"); 
     await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
     
     console.log("Uploaded");
