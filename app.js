@@ -109,6 +109,7 @@ app.post('/qr-gen', async (req, res) => {
       user: "qr@livingwordnew.com",
       password: process.env.ftppassword 
     });
+    console.log("FTP connected");
     // Upload file
     await client.cd("public_html"); 
     await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
