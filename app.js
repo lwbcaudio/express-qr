@@ -109,6 +109,9 @@ app.post('/qr-gen', async (req, res) => {
       user: "qr@livingwordnew.com",
       password: process.env.ftppassword 
     });
+    client.on("error", err => {
+      console.log("Connection error!", err);
+    });
 
     // Upload file
     await client.cd("public_html"); 
