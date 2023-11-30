@@ -35,6 +35,37 @@ app.post('/webhook', (req, res) => {
 
   res.status(200).end(); // Responding is important
 });
+app.post('/promo', (req, res) => {
+  // This is where you'll handle the incoming webhook data
+  console.log(req.body);
+
+  // Encode the JSON string to hexadecimal
+  const jsonString = JSON.stringify(req.body);
+  const hexString = Buffer.from(jsonString).toString('hex');
+
+  // Create the new JSON object
+  const newJson = {
+    phone: req.body.phone,
+    qrdata: hexString
+  };
+
+  // Send the new JSON object back as a webhook
+  // You'll need to replace 'your-webhook-url' with the actual URL of your webhook
+  fetch(req.body.promohook, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newJson)
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+  res.status(200).end(); // Responding is important
+});
 //app.post('/qr-gen', (req, res) => {
 app.get('/qr-gen', (req, res) => {
   const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
