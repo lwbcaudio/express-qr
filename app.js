@@ -104,7 +104,7 @@ app.get('/qr-gen', (req, res) => {
     }
     // Upload image
     const client = new ftp.Client();
-     onst ftpPassword = process.env.ftppassword;
+    const ftpPassword = process.env.ftppassword;
     client.access({
       host: "ftp.livingwordnew.com",
       user: "qr@livingwordnew.com",
