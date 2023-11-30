@@ -88,8 +88,9 @@ app.get('/qr-gen1', (req, res) => {
 app.get('/qr-gen', (req, res) => {
 
   const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
-  
+  console.log(hexString);
   const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
+  console.log(jsonString);
   const jsonData = JSON.parse(jsonString);
   const qrname = jsonData.id;
   const qrfile = qrname + '.png';
