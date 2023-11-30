@@ -89,15 +89,14 @@ app.get('/qr-gen1', (req, res) => {
   });
 });
 app.post('/qr-gen', (req, res) => {
-  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
-  const hexS =req.query.qrdata;
-  console.log(hexS);
-  const jsonString = Buffer.from(hexS, 'hex').toString('utf8');
-  console.log(jsonString);
-  const jsonData = JSON.parse(jsonString);
-  const qrname = jsonData.id;
+  //get needed variables
+  const phone = req.body.phone;
+  const qrpromohook = req.body.promohook;
+  const qrname = req.body.id;
   const qrfile = qrname + '.png';
-   qrcode.toFile(qrfile, hexString, (err) => {
+  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.body.qrdata;
+  // grenerate QR code 
+  qrcode.toFile(qrfile, hexString, (err) => {
     if(err) {
       console.log(err);
       return res.status(500).send('Error generating QR code');
