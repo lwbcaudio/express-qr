@@ -105,8 +105,8 @@ app.post('/qr-gen', async (req, res) => {
     // Connect to FTP
     const client = new ftp.Client();
     await client.access({  
-      host: "",
-      user: "",
+      host: "ftp.livingwordnew.com",
+      user: "qr@livingwordnew.com",
       password: process.env.ftppassword 
     });
 
