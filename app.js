@@ -17,7 +17,7 @@ app.post('/qr-gen', async (req, res) => {
     const qrpromohook = req.body.promohook;
     const qrname = req.body.id;
     const qrfile = qrname + '.png';
-    const hexString = sBase64.encode('https://web-hook-qr.onrender.com/qr?qrdata=' + req.body.qrurl);
+    const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + sBase64.encode(req.body.qrurl);
 
     // Generate QR code
     await qrcode.toFile(qrfile, hexString);
