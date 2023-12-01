@@ -17,7 +17,7 @@ app.post('/qr-gen', async (req, res) => {
     const qrpromohook = req.body.promohook;
     const qrname = req.body.id;
     const qrfile = qrname + '.png';
-    const bs64 = Buffer.from(req.body.qrurl).toString("base64");
+    const bs64 = Buffer.from(req.body.qrurl, 'utf-8').toString("base64");
     const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + sBase64.encode(bs64);
 
     // Generate QR code
@@ -50,7 +50,7 @@ app.post('/qr-gen', async (req, res) => {
 });
 app.get('/qr', (req, res) => {
   const bs64 = sBase64.decode(req.query.qrdata);
-  const hexString = Buffer.from(bs64).toString("utf-8");
+  const hexString = Buffer.from(bs64, 'base64').toString("utf-8");
 
   // Decode the hex string to JSON
   //const jsonString = hexString;
