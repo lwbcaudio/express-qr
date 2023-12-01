@@ -2,92 +2,12 @@ const express = require('express');
 const qrcode = require('qrcode');
 const ftp = require('basic-ftp');
 const fs = require('fs');
+const sBase64 = require('url-safe-base64');
 require('dotenv').config(); 
 
 const app = express();
 app.use(express.json());
 
-app.post('/webhook', (req, res) => {
-  // This is where you'll handle the incoming webhook data
-  console.log(req.body);
-
-  // Encode the JSON string to hexadecimal
-  const jsonString = JSON.stringify(req.body);
-  const hexString = Buffer.from(jsonString).toString('hex');
-
-  // Create the new JSON object
-  const newJson = {
-    phone: req.body.phone,
-    qrdata: hexString
-  };
-
-  // Send the new JSON object back as a webhook
-  // You'll need to replace 'your-webhook-url' with the actual URL of your webhook
-  fetch(req.body.basicwebhook, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newJson)
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-
-  res.status(200).end(); // Responding is important
-});
-app.post('/promo', (req, res) => {
-  // This is where you'll handle the incoming webhook data
-  console.log(req.body);
-
-  // Encode the JSON string to hexadecimal
-  const jsonString = JSON.stringify(req.body);
-  const hexString = Buffer.from(jsonString).toString('hex');
-
-  // Create the new JSON object
-  const newJson = {
-    phone: req.body.phone,
-    qrdata: hexString
-  };
-
-  // Send the new JSON object back as a webhook
-  // You'll need to replace 'your-webhook-url' with the actual URL of your webhook
-  fetch(req.body.promohook, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newJson)
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-
-  res.status(200).end(); // Responding is important
-});
-//app.post('/qr-gen', (req, res) => {
-app.get('/qr-gen1', (req, res) => {
-  const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + req.query.qrdata;
-
-  // Generate QR code from hexadecimal string
-  qrcode.toBuffer(hexString, (err, buffer) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error generating QR code');
-    } else {
-      res.writeHead(200, {
-        'Content-Type': 'image/png',
-        'Content-Length': buffer.length
-      });
-
-      res.end(buffer);
-    }
-  });
-});
 app.post('/qr-gen', async (req, res) => {
 
   try {
@@ -97,7 +17,7 @@ app.post('/qr-gen', async (req, res) => {
     const qrpromohook = req.body.promohook;
     const qrname = req.body.id;
     const qrfile = qrname + '.png';
-    const hexString = 'bob alksfj;alksdjf;alksfdj;alkdjf'; //'https://web-hook-qr.onrender.com/qr?qrdata=' + req.body.qrdata;
+    const hexString = sBase64.encode('https://web-hook-qr.onrender.com/qr?qrdata=' + req.body.qrurl);
 
     // Generate QR code
     await qrcode.toFile(qrfile, hexString);
@@ -128,11 +48,11 @@ app.post('/qr-gen', async (req, res) => {
 
 });
 app.get('/qr', (req, res) => {
-  const hexString = req.query.qrdata;
+  const hexString = sBase64.decode(req.query.qrdata);
 
   // Decode the hex string to JSON
-  const jsonString = Buffer.from(hexString, 'hex').toString('utf8');
-  const jsonData = JSON.parse(jsonString);
+  //const jsonString = hexString;
+  const jsonData = JSON.parse(hexString);
 
   // Get the phone and promohook data
   const phone = jsonData.phone;
