@@ -37,7 +37,7 @@ app.post('/qr-gen', async (req, res) => {
     console.log("Uploaded");
 
     // Send response
-    res.send("https://livingwordnew.com/" + qrfile);
+    res.send("http://hooktesting.elementfx.com/qr/" + qrfile);
 
   } catch(err) {
 
