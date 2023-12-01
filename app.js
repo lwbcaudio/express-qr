@@ -111,7 +111,7 @@ app.post('/qr-gen', async (req, res) => {
     });
     console.log("FTP connected");
     // Upload file
-    await client.cd("/public_html/qr"); 
+    //await client.cd("/public_html/qr"); 
     await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
     
     console.log("Uploaded");
