@@ -105,13 +105,13 @@ app.post('/qr-gen', async (req, res) => {
     // Connect to FTP
     const client = new ftp.Client();
     await client.access({  
-      host: "ftp.livingwordnew.com",
-      user: "qr@livingwordnew.com",
+      host: "ftp.hooktesting.elementfx.com",
+      user: "qr@hooktesting.elementfx.com",
       password: process.env.ftppassword 
     });
     console.log("FTP connected");
     // Upload file
-    //await client.cd("/public_html"); 
+    await client.cd("/public_html/qr); 
     await client.uploadFrom(fs.createReadStream(qrfile), qrfile);
     
     console.log("Uploaded");
