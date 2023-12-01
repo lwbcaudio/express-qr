@@ -4,6 +4,11 @@ const ftp = require('basic-ftp');
 const fs = require('fs');
 require('dotenv').config(); 
 
+import {
+  encode, decode, trim,
+  isBase64, isUrlSafeBase64
+} from 'url-safe-base64';
+
 const app = express();
 app.use(express.json());
 
