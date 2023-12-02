@@ -20,7 +20,7 @@ app.post('/qr-gen', async (req, res) => {
 
     const qrdata = {
       phone: req.body.phone,
-      phomohook: req.body.promohook
+      promohook: req.body.promohook
     };
     const json = JSON.stringify(qrdata);
     
