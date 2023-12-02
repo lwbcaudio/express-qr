@@ -13,11 +13,18 @@ app.post('/qr-gen', async (req, res) => {
   try {
 
     // Get data   
-    const phone = req.body.phone; 
-    const qrpromohook = req.body.promohook;
+    //const phone = req.body.phone; 
+    //const qrpromohook = req.body.promohook;
     const qrname = req.body.id;
     const qrfile = qrname + '.png';
-    const bs64 = Buffer.from(qrpromohook, 'utf-8').toString("base64");
+
+    const qrdata = {
+      phone: req.body.phone,
+      phomohook: req.body.promohook
+    };
+    const json = JSON.stringify(qrdata);
+    
+    const bs64 = Buffer.from(json, 'utf-8').toString("base64");
     
     const hexString = 'https://web-hook-qr.onrender.com/qr?qrdata=' + sBase64.encode(bs64);
 
