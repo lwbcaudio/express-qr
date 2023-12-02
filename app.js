@@ -49,7 +49,7 @@ app.post('/qr-gen', async (req, res) => {
     const qrUrl = `http://${req.hostname}/qr/${qrfile}`;
     res.jsaon({
       qrurl: qrUrl
-    }
+    });
 
   } catch(err) {
 
