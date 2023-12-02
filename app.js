@@ -46,11 +46,7 @@ app.post('/qr-gen', async (req, res) => {
     console.log("Uploaded");
 
     // Send response
-    const qrUrl = `http://${req.hostname}/qr/${qrfile}`;
-    res.json({
-      qrurl: qrUrl
-    });
-
+   res.send('http://hooktesting.elementfx.com/qr/' + qrfile);
   } catch(err) {
 
     console.log(err);
