@@ -63,7 +63,7 @@ app.get('/qr', (req, res) => {
   // Decode the hex string to JSON
   //const jsonString = hexString;
   const jsonData = JSON.parse(hexString);
-
+  console.log(jsonData);
   // Get the phone and promohook data
   const phone = jsonData.phone;
   const inboundWebhookUrl = jsonData.promohook;
