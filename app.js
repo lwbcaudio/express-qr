@@ -90,6 +90,31 @@ app.get('/qr', (req, res) => {
     res.send(`<p>Error: ${error}</p>`); // Display error message
   });
 });
+app.post('/setup', (req, res) => {
+  
+  const newJson = {
+    phone: res.body.phone
+  };
+  const inboundWebhookUrl = res.body.promohook;
+
+  // Send the new JSON object back as a webhook to the inboundwebhookurl
+  fetch(inboundWebhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newJson)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    res.send(`Setup Successful`); // Display success message
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    res.send(`<p>Error: ${error}</p>`); // Display error message
+  });
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
