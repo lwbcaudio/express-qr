@@ -93,9 +93,9 @@ app.get('/qr', (req, res) => {
 
 app.post('/setup', (req, res) => {  
   const newJson = {
-    phone: res.body.phone
+    phone: req.body.phone
   };
-  const inboundWebhookUrl = res.body.promohook;
+  const inboundWebhookUrl = req.body.promohook;
 
   // Send the new JSON object back as a webhook to the inboundwebhookurl
   fetch(inboundWebhookUrl, {
