@@ -90,8 +90,8 @@ app.get('/qr', (req, res) => {
     res.send(`<p>Error: ${error}</p>`); // Display error message
   });
 });
-app.post('/setup', (req, res) => {
-  
+
+app.post('/setup', (req, res) => {  
   const newJson = {
     phone: res.body.phone
   };
